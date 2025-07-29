@@ -48,9 +48,9 @@ jobs:
       - name: Set up SSH for SVN
         run: |
           mkdir -p ~/.ssh
-          echo "${{ secrets.SSH_KEY }}"
           echo "${{ secrets.SSH_KEY }}" > ~/.ssh/id_rsa_new
           chmod 600 ~/.ssh/id_rsa_new
+          cat ~/.ssh/id_rsa_new
           ssh-keyscan -H svn-1.simba4.srvs.ahdev.co >> ~/.ssh/known_hosts
 
       - name: Commit and push
