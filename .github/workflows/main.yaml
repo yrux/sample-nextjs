@@ -34,7 +34,7 @@ jobs:
         run: |
           rm -rf build-output
           mkdir build-output
-          rsync -av --exclude build-output/ --exclude .git/ --exclude .gitignore --exclude .next --exclude _static --exclude .github/ . build-output/
+          rsync -av --exclude build-output/ --exclude .git/ --exclude .gitignore --exclude node_modules --exclude .github/ . build-output/
           # Add any other files you need
 
       - name: Set up git
@@ -56,7 +56,7 @@ jobs:
       - name: Commit and push
         run: |
           cd build-output
-          git checkout -b ext-ci-cd-nobuild
+          git checkout -b ext-ci-cd-nomodules
           git add .
           git commit -m "Build output from GitHub Actions: $(date '+%Y-%m-%d %H:%M:%S')"
-          git push --force target ext-ci-cd-nobuild
+          git push --force target ext-ci-cd-nomodules
