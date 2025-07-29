@@ -41,9 +41,9 @@ jobs:
         run: |
           cd build-output
           git init
-          git config user.name "omkar-mane"
-          git config user.email "omkar.mane@acquia.com"
-          git remote add target nodejsintegrationtest@svn-1.simba4.srvs.ahdev.co:nodejsintegrationtest.git
+          git config user.name "yaseen1546"
+          git config user.email "muhammad.yaseen@acquia.com"
+          git remote add target testnode2674@svn-1.simba4.srvs.ahdev.co:testnode2674.git
 
       - name: Set up SSH for SVN
         run: |
