@@ -34,7 +34,7 @@ jobs:
         run: |
           rm -rf build-output
           mkdir build-output
-          cp -R . build-output/
+          rsync -av --exclude build-output/ . build-output/
           # Add any other files you need
 
       - name: Set up git
