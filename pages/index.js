@@ -17,7 +17,7 @@ export default function Home() {
         </div>
         {/* Heading */}
         <h1 className="mt-12 mb-4 text-5xl font-bold text-gray-900 drop-shadow-lg leading-tight tracking-tight">
-          🚀 <span className="align-middle">External CI/CD Demo 23-07-2025</span> 🚀
+          🚀 <span className="align-middle">External CI/CD Demo 23-07-2025 <b>ext-ci-cd-normal</b></span> 🚀
         </h1>
         <p className="text-xl md:text-2xl mb-5 text-gray-700 font-light">
           A modern Next.js app deployed magically from GitHub – experience automation and elegance.
