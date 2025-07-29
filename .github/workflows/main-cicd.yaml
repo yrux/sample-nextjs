@@ -1,0 +1,64 @@
+name: CI + CD
+
+on: 
+  workflow_dispatch  # Manual trigger only - won't run automatically
+# on:
+#   push:
+#     branches:
+#       - main  # or your desired source branch
+
+jobs:
+  build-and-push:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Set up Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+          
+      - name: Install dependencies
+        run: npm install
+
+      - name: Build Next.js
+        run: npm run build
+
+      # If you want to push the .next and other build folders, you may need to prepare that
+      # e.g. copy build output to a separate directory
+
+      - name: Prepare build directory
+        run: |
+          rm -rf build-output
+          mkdir build-output
+          cp -R public pages package.json next.config.js acquia_config.yaml build-output/
+          # Add any other files you need
+
+      - name: Set up git
+        run: |
+          cd build-output
+          git init
+          git config user.name "omkar-mane"
+          git config user.email "omkar.mane@acquia.com"
+          git remote add target nodejsacn@svn-1565.gardens.hosting.acquia.com:nodejsacn.git
+
+      - name: Set up SSH for SVN
+        run: |
+          mkdir -p ~/.ssh
+          echo "${{ secrets.DEPLOY_SSH_KEY }}" > ~/.ssh/id_rsa
+          chmod 600 ~/.ssh/id_rsa
+          ssh-keyscan -H svn-1565.gardens.hosting.acquia.com >> ~/.ssh/known_hosts
+
+      - name: Commit and push
+        run: |
+          cd build-output
+          git checkout -b ext-ci-cd-github
+          git add .
+          git commit -m "Build output from GitHub Actions"
+          git push --force target ext-ci-cd-github
+      
+      - name: Trigger deployment
+        run : |
+          ./deploy.sh --client-id=${{ secrets.CLIENT_ID }} --client-secret=${{ secrets.CLIENT_SECRET }} --environment-id=32846-650d343b-a0f4-46ca-9001-0fc7f8acebe7 --branch=ext-ci-cd-github
