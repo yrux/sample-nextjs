@@ -43,20 +43,20 @@ jobs:
           git init
           git config user.name "yaseen1546"
           git config user.email "muhammad.yaseen@acquia.com"
-          git remote add target testnode2674@svn-1.simba4.srvs.ahdev.co:testnode2674.git
+          git remote add target nodejsmigration@svn-299.gardens.hosting.acquia.com:nodejsmigration.git
 
       - name: Set up SSH for SVN
         run: |
           mkdir -p ~/.ssh
-          echo "${{ secrets.SSH_KEY }}" > ~/.ssh/id_rsa
+          echo "${{ secrets.SSH_KEY_NEW }}" > ~/.ssh/id_rsa
           chmod 600 ~/.ssh/id_rsa
           cat ~/.ssh/id_rsa
-          ssh-keyscan -H svn-1.simba4.srvs.ahdev.co >> ~/.ssh/known_hosts
+          ssh-keyscan -H svn-299.gardens.hosting.acquia.com >> ~/.ssh/known_hosts
 
       - name: Commit and push
         run: |
           cd build-output
-          git checkout -b ext-ci-cd-normal
+          git checkout -b ext-ci-cd-test
           git add .
           git commit -m "Build output from GitHub Actions: $(date '+%Y-%m-%d %H:%M:%S')"
-          git push --force target ext-ci-cd-normal
+          git push --force target ext-ci-cd-test
