@@ -1,11 +1,12 @@
 name: CI + CD
 
-on: 
-  workflow_dispatch  # Manual trigger only - won't run automatically
-# on:
-#   push:
-#     branches:
-#       - main  # or your desired source branch
+# on: 
+#   workflow_dispatch  # Manual trigger only - won't run automatically
+
+on:
+  push:
+    branches:
+      - main  # or your desired source branch
 
 jobs:
   build-and-push:
@@ -33,32 +34,33 @@ jobs:
         run: |
           rm -rf build-output
           mkdir build-output
-          cp -R public pages package.json next.config.js acquia_config.yaml build-output/
+          rsync -av --exclude build-output/ --exclude .git/ --exclude .gitignore --exclude .github/ . build-output/
           # Add any other files you need
 
       - name: Set up git
         run: |
           cd build-output
           git init
-          git config user.name "omkar-mane"
-          git config user.email "omkar.mane@acquia.com"
-          git remote add target nodejsacn@svn-1565.gardens.hosting.acquia.com:nodejsacn.git
+          git config user.name "yaseen1546"
+          git config user.email "muhammad.yaseen@acquia.com"
+          git remote add target nodejsmigration@svn-299.gardens.hosting.acquia.com:nodejsmigration.git
 
       - name: Set up SSH for SVN
         run: |
           mkdir -p ~/.ssh
-          echo "${{ secrets.DEPLOY_SSH_KEY }}" > ~/.ssh/id_rsa
+          echo "${{ secrets.SSH_KEY_NEW }}" > ~/.ssh/id_rsa
           chmod 600 ~/.ssh/id_rsa
-          ssh-keyscan -H svn-1565.gardens.hosting.acquia.com >> ~/.ssh/known_hosts
+          cat ~/.ssh/id_rsa
+          ssh-keyscan -H svn-299.gardens.hosting.acquia.com >> ~/.ssh/known_hosts
 
       - name: Commit and push
         run: |
           cd build-output
-          git checkout -b ext-ci-cd-github
+          git checkout -b ext-ci-cd-noconfig
           git add .
-          git commit -m "Build output from GitHub Actions"
-          git push --force target ext-ci-cd-github
+          git commit -m "Build output from GitHub Actions: $(date '+%Y-%m-%d %H:%M:%S')"
+          git push --force target ext-ci-cd-noconfig
       
       - name: Trigger deployment
         run : |
-          ./deploy.sh --client-id=${{ secrets.CLIENT_ID }} --client-secret=${{ secrets.CLIENT_SECRET }} --environment-id=32846-650d343b-a0f4-46ca-9001-0fc7f8acebe7 --branch=ext-ci-cd-github
+          ./deploy.sh --client-id=${{ secrets.CLIENT_ID }} --client-secret=${{ secrets.CLIENT_SECRET }} --environment-id=9e029103-ca3e-493d-9e54-e05d2deed751 --branch=ext-ci-cd-noconfig
