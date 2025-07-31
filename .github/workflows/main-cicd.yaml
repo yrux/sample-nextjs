@@ -56,11 +56,11 @@ jobs:
       - name: Commit and push
         run: |
           cd build-output
-          git checkout -b ext-ci-cd-nomodules
+          git checkout -b ext-ci-cd-normal
           git add .
           git commit -m "Build output from GitHub Actions: $(date '+%Y-%m-%d %H:%M:%S')"
-          git push --force target ext-ci-cd-nomodules
+          git push --force target ext-ci-cd-normal
       
       - name: Trigger deployment
         run : |
-          ./deploy.sh --client-id=${{ secrets.CLIENT_ID }} --client-secret=${{ secrets.CLIENT_SECRET }} --environment-id=39513-aae8a28a-3199-11f0-a41b-b7397acb7f3d --branch=ext-ci-cd-nomodules
+          ./deploy.sh --client-id=${{ secrets.CLIENT_ID }} --client-secret=${{ secrets.CLIENT_SECRET }} --environment-id=39513-aae8a28a-3199-11f0-a41b-b7397acb7f3d --branch=ext-ci-cd-normal
