@@ -1,3 +1,6 @@
 node_modules/
 .next/
 /_static
+temp_auto_push.bat
+temp_interactive_push.bat
+branch_structure.json
