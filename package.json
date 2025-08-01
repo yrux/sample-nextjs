@@ -4,9 +4,9 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "dev": "next dev",
-    "build": "npm install && next build",
-    "start": "serve -s _static -l tcp://0.0.0.0:${PORT:-3000} -n",
+    "dev": "node api.js && next dev",
+    "build": "node api.js && npm install && next build",
+    "start": "node api.js && serve -s _static -l tcp://0.0.0.0:${PORT:-3000} -n",
     "lint": "next lint"
   },
   "keywords": [],
