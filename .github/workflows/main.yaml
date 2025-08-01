@@ -43,7 +43,7 @@ jobs:
           git init
           git config user.name "yaseen1546"
           git config user.email "muhammad.yaseen@acquia.com"
-          git remote add target estnode2674@svn-1.simba4.srvs.ahdev.co:testnode2674.git
+          git remote add target testnode2674@svn-1.simba4.srvs.ahdev.co:testnode2674.git
 
       - name: Set up SSH for SVN
         run: |
