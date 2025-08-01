@@ -1,12 +1,12 @@
 name: CI + CD
 
-# on: 
-#   workflow_dispatch  # Manual trigger only - won't run automatically
+on: 
+  workflow_dispatch  # Manual trigger only - won't run automatically
 
-on:
-  push:
-    branches:
-      - main  # or your desired source branch
+# on:
+#   push:
+#     branches:
+#       - main  # or your desired source branch
 
 jobs:
   build-and-push:
